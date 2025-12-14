@@ -1,0 +1,107 @@
+.base-node {
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+}
+
+.base-node:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: #CBD5E0;
+}
+
+.base-node.selected {
+  border-color: #4299E1;
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.3);
+}
+
+.node-header {
+  padding: 8px 12px;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.node-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.node-subtitle {
+  font-size: 11px;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.node-content {
+  padding: 12px;
+  min-height: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.node-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.node-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4A5568;
+}
+
+.node-field input,
+.node-field select,
+.node-field textarea {
+  border: 1px solid #CBD5E0;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+
+.node-field input:focus,
+.node-field select:focus,
+.node-field textarea:focus {
+  outline: none;
+  border-color: #4299E1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+/* Text Node Specific Styles */
+.text-node-input:focus {
+  border-color: #38A169 !important;
+  box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1) !important;
+  outline: none;
+}
+
+.text-node-input::placeholder {
+  color: #A0AEC0;
+  font-style: italic;
+}
+
+/* Variable highlight in text */
+.variable-highlight {
+  background-color: #FEFCBF;
+  border: 1px solid #F6E05E;
+  border-radius: 3px;
+  padding: 0 2px;
+  color: #744210;
+}
+
+/* Syntax highlighting for variables */
+.text-with-variables {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
