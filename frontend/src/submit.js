@@ -1,3 +1,5 @@
+// submit.js - 
+
 import { useState } from 'react';
 import { useStore } from './store';
 import { parsePipeline } from './api';
@@ -12,12 +14,26 @@ export const SubmitButton = () => {
   
   const nodes = useStore((state) => state.nodes);
   const edges = useStore((state) => state.edges);
+  const validatePipeline = useStore((state) => state.validatePipeline);
 
   const handleSubmit = async () => {
+    // Check if pipeline is empty
     if (nodes.length === 0) {
       setAlertData({
         title: 'Empty Pipeline',
         message: 'Please add at least one node to the pipeline before submitting.',
+        data: null
+      });
+      setIsModalOpen(true);
+      return;
+    }
+
+    // Validate pipeline before submitting
+    const validation = validatePipeline();
+    if (!validation.isValid) {
+      setAlertData({
+        title: 'Invalid Pipeline',
+        message: `Pipeline validation failed: ${validation.error}`,
         data: null
       });
       setIsModalOpen(true);
@@ -44,7 +60,11 @@ export const SubmitButton = () => {
         }))
       };
 
+      console.log('Submitting pipeline:', pipelineData);
+      
       const result = await parsePipeline(pipelineData);
+      
+      console.log('Pipeline analysis result:', result);
       
       setAlertData({
         title: 'Pipeline Analysis',
@@ -74,7 +94,7 @@ export const SubmitButton = () => {
         <button 
           className={`submit-button ${isLoading ? 'loading' : ''}`}
           onClick={handleSubmit}
-          disabled={isLoading}
+          disabled={isLoading || nodes.length === 0}
         >
           {isLoading ? (
             <>

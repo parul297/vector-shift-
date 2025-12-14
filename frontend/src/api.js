@@ -39,14 +39,5 @@ const testBackendConnection = async () => {
   }
 };
 
-// Choose ONE of these export methods:
 
-// OPTION 1: Named exports (recommended)
 export { parsePipeline, testBackendConnection };
-
-// OPTION 2: Default export as object
-// export default { parsePipeline, testBackendConnection };
-
-// OPTION 3: Individual named exports
-// export { parsePipeline };
-// export { testBackendConnection };

@@ -1,7 +1,7 @@
 /**
  * Extract variables from text in the format {{ variable_name }}
- * @param {string} text - The input text
- * @returns {Array} Array of unique variable names
+ * @param {string} text 
+ * @returns {Array}
  */
 export const extractVariables = (text) => {
   if (!text) return [];

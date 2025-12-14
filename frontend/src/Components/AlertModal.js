@@ -1,73 +1,63 @@
-import { useEffect } from 'react';
+// AlertModal.js - 
+
+import React from 'react';
 import './AlertModal.css';
 
 const AlertModal = ({ isOpen, onClose, title, message, data }) => {
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, onClose]);
-
   if (!isOpen) return null;
+
+  // Check if this is an error response
+  const isError = data && (data.error || !data.is_dag);
+  const isSuccess = data && data.is_dag;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h3 className="modal-title">{title}</h3>
-          <button className="modal-close" onClick={onClose}>
-            ×
-          </button>
+          <h2>{title}</h2>
+          <button className="modal-close" onClick={onClose}>×</button>
         </div>
         
-        <div className="modal-content">
+        <div className="modal-body">
           <p className="modal-message">{message}</p>
           
           {data && (
-            <div className="modal-data">
-              <div className="data-grid">
-                <div className="data-item">
-                  <span className="data-label">Nodes</span>
-                  <span className="data-value">{data.num_nodes}</span>
+            <div className="analysis-results">
+              <div className="stats-grid">
+                <div className="stat-card">
+                  <div className="stat-label">NODES</div>
+                  <div className="stat-value">{data.num_nodes || 0}</div>
                 </div>
-                <div className="data-item">
-                  <span className="data-label">Edges</span>
-                  <span className="data-value">{data.num_edges}</span>
+                
+                <div className="stat-card">
+                  <div className="stat-label">EDGES</div>
+                  <div className="stat-value">{data.num_edges || 0}</div>
                 </div>
-                <div className="data-item">
-                  <span className="data-label">Is DAG</span>
-                  <span className={`data-value ${data.is_dag ? 'dag-true' : 'dag-false'}`}>
-                    {data.is_dag ? 'Yes ✓' : 'No ✗'}
-                  </span>
+                
+                <div className="stat-card">
+                  <div className="stat-label">IS DAG</div>
+                  <div className={`stat-value ${isSuccess ? 'success' : 'error'}`}>
+                    {data.is_dag ? '✓ Yes' : '✗ No'}
+                  </div>
                 </div>
               </div>
               
-              {data.is_dag ? (
-                <div className="dag-status dag-valid">
-                  <div className="dag-icon">✓</div>
-                  <div>
-                    <strong>Valid Pipeline</strong>
-                    <p>Your pipeline is a valid Directed Acyclic Graph (DAG). It can be executed without cycles.</p>
+              {isError && (
+                <div className="error-box">
+                  <div className="error-icon">✗</div>
+                  <div className="error-content">
+                    <h3>Pipeline Contains Cycles</h3>
+                    <p>{data.error || data.message || 'Your pipeline is not a DAG. Cycles detected. Please check connections between nodes.'}</p>
                   </div>
                 </div>
-              ) : (
-                <div className="dag-status dag-invalid">
-                  <div className="dag-icon">✗</div>
-                  <div>
-                    <strong>Pipeline Contains Cycles</strong>
-                    <p>Your pipeline is not a DAG. Cycles detected. Please check connections between nodes.</p>
+              )}
+              
+              {isSuccess && (
+                <div className="success-box">
+                  <div className="success-icon">✓</div>
+                  <div className="success-content">
+                    <h3>Valid Pipeline</h3>
+                    <p>Your pipeline is a valid DAG with no cycles detected!</p>
                   </div>
                 </div>
               )}
@@ -76,9 +66,7 @@ const AlertModal = ({ isOpen, onClose, title, message, data }) => {
         </div>
         
         <div className="modal-footer">
-          <button className="modal-button" onClick={onClose}>
-            Close
-          </button>
+          <button className="modal-button" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>
