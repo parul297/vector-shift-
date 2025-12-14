@@ -1,4 +1,3 @@
-markdown
 # Pipeline Builder
 
 A visual tool for creating and analyzing computational pipelines, built with React and Python/FastAPI.
